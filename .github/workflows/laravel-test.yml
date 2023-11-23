@@ -29,5 +29,5 @@ jobs:
 
     - name: Run tests
       run: |
-      php artisan migrate:fresh --env=test
-      php artisan test
+        php artisan migrate:fresh --env=test
+        php artisan test
