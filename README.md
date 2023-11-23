@@ -18,3 +18,13 @@ Se recomienda tener abierta dos terminales para ejecutar los comandos siguientes
 # Ejemplo de comandos para ejecutar el proyecto
 $ php artisan serve
 $ npn run dev
+
+ ```env
+    # Archivo .env debe rellenar las siguientes variables de entorno adicionalmente a un proyecto laravel normal...
+
+    # Configuración de la base de datos
+    CURRENCY_API_TOKEN=your_token
+    CURRENCY_API_URL=your_api_url
+    JWT_SECRET=your_jwt
+
+    ```
