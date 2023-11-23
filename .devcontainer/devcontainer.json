@@ -1,0 +1,29 @@
+{
+    "name": "PHP 8 Dev Container",
+    "dockerFile": "../Dockerfile",  // Ruta al Dockerfile
+    "customizations": {
+      "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "php.suggest.basic": false,
+        "terminal.integrated.shell.linux": "/bin/bash"
+		},
+		"vscode": {
+			"extensions": [
+				"DEVSENSE.phptools-vscode"
+			]
+		},
+      //// Configure properties specific to VS Code.
+      //"vscode": {
+      //	"settings": {
+      //		"php.validate.executablePath": "/usr/local/bin/php"
+      //	},
+      //	"extensions": [
+      //		"streetsidesoftware.code-spell-checker"
+      //	]
+      //	
+      //}
+    },
+    "forwardPorts": [8000],
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  }

@@ -1,0 +1,74 @@
+FROM php:8.1-fpm
+
+# Configurar Xdebug para el modo coverage
+RUN echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# Configurar Xdebug para el modo develop
+#RUN echo "xdebug.mode=develop" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+#    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+#    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# Configurar Xdebug para el modo debug
+#RUN echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+#    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+#    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+# Set working directory
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+        build-essential \
+        libpng-dev \
+        libzip-dev \
+        libjpeg62-turbo-dev \
+        libfreetype6-dev \
+        zip \
+        jpegoptim optipng pngquant gifsicle \
+        vim \
+        unzip \
+        git \
+        liblua5.3-dev \
+        libmemcached-dev \
+        nginx \
+        curl \
+        supervisor \
+        wget \
+        zlib1g-dev \
+        libssl-dev \
+        gnupg \
+        libicu-dev \
+        xvfb \
+        fontconfig \
+        nodejs \ 
+        npm
+
+# Install redis
+RUN apt-get install -y bash && pecl install -o -f redis && docker-php-ext-enable redis
+
+# Install extensions
+RUN docker-php-ext-install pdo_mysql zip exif pcntl gd bcmath
+
+#RUN docker-php-ext-install -j$(nproc) intl
+
+# Copy composer.lock and composer.json
+#COPY composer.lock composer.json /var/www/html/
+
+# Copy config
+#COPY .devops/php/local.ini /usr/local/etc/php/conf.d/local.ini
+#COPY .devops/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
+#COPY .devops/supervisor/api.conf /etc/supervisor/conf.d/fortesza.conf
+#COPY .devops/supervisor/queue.conf /etc/supervisor/conf.d/queue.conf
+
+# Install composer --no-scripts --no-autoloader
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Add user for laravel application
+# Set the working directory in the container
+WORKDIR /workspace
+
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
+EXPOSE 8000
+EXPOSE 80
+EXPOSE 5173
