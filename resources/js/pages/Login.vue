@@ -58,35 +58,29 @@
     </div>
 </template>
 <script>
-import { reactive, ref } from 'vue';
-import {useRouter} from "vue-router";
 
 export default {
-  setup() {
-        const errors = '';
-        const router = useRouter();
-        const form = {
-            email: '',
-            password: '',
-        };
-        const handleLogin = async () => {
-            try {
-                const result = await axios.post('/internal_api/auth/login', form)
-                if (result.status === 200 && result.data && result.data.data.token) {
-                    localStorage.setItem('API_TOKEN', result.data.data.token)
-                    await router.push('/app/home')
-                }
-            } catch (e) {
-                console.log(e);
-               
-            }
+ data() {
+    return {
+      errors: '',
+      form: {
+        email: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async handleLogin() {
+      try {
+        const result = await axios.post('/internal_api/auth/login', this.form)
+        if (result.status === 200 && result.data && result.data.data.token) {
+            localStorage.setItem('API_TOKEN', result.data.data.token)
+            await this.$router.push('/app/home');
         }
-
-        return {
-            form,
-            errors,
-            handleLogin,
-        }
-    }
-}
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+};
 </script>

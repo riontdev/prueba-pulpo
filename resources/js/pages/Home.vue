@@ -68,7 +68,7 @@
                     <label
                         class="block text-grey-darker text-sm font-bold mb-2"
                     >
-                        Total: {{this.total}}
+                        Total: {{this.total}} {{this.currency}}
                     </label>
                   <button
                       class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
@@ -94,6 +94,7 @@ export default {
         amount: '',
       },
       total: '',
+      currency: '',
       currencies: [],
     };
   },
@@ -116,18 +117,12 @@ export default {
     async handleLogin() {
       try {
         const result = await request('post','/internal_api/currency_calculator', this.form);
-        if (result.status === 200 && result.data && result.data.data) {
-            console.log(result.data);
+        if (result.status === 201 && result.data && result.data.data) {
             this.total = result.data.data.amount;
-        } else if(result.status === 403){
-            await router.push('/app/login')
+            this.currency = result.data.data.currency;
         }
       } catch (e) {
-        if (e && e.response.data && e.response.data.errors) {
-          this.errors = Object.values(e.response.data.errors);
-        } else {
-          this.errors = e.response.data.message || '';
-        }
+        await this.$router.push('/app/login');
       }
     },
   },
