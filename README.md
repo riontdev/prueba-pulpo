@@ -1,6 +1,6 @@
-# Prueba Técnica - Nombre del Proyecto
+# Prueba Técnica - test-pulpo
 
-Este repositorio contiene mi solución para la prueba técnica [Prueba técnica Programador Laravel | Symfony] para . A continuación, se proporciona una descripción general del proyecto y cómo ejecutar la solución.
+Este repositorio contiene mi solución para la prueba técnica [Prueba técnica Programador Laravel | Symfony] . A continuación, se proporciona una descripción general del proyecto y cómo ejecutar la solución.
 
 ## Tecnologías Utilizadas
 
